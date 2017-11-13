@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -81,6 +82,38 @@ public class JobData {
             }
         }
 
+        return jobs;
+    }
+
+    public static ArrayList<HashMap<String, String>> findByValue (String searchTerm) {
+
+        /**
+        Search for a term in all columns.  If a row of allJobs contains searchTerm one or more times, accumulate that Job
+        (a hashMap) into the List of Jobs.  Then, return the list (an ArrayList of HashMaps).
+         */
+
+        // load data, if not already loaded
+        loadData();
+
+        // initialize an empty list of hashmaps which will hold the results
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // We need to find every job which contains the search term in any of its columns.
+
+        for (HashMap<String, String> job : allJobs) {
+            Boolean containsTerm = false;
+            for (Map.Entry<String, String> row : job.entrySet()) {
+                String original_value = row.getValue();
+                String value = original_value.toLowerCase();
+                if (value.contains(searchTerm)) {
+                    containsTerm = true;
+                    break;
+                }
+            }
+            if (containsTerm == true) {
+                jobs.add(job);
+            }
+        }
         return jobs;
     }
 
