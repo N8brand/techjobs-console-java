@@ -19,7 +19,6 @@ public class JobData {
 
     private static final String DATA_FILE = "resources/job_data.csv";
     private static Boolean isDataLoaded = false;
-
     private static ArrayList<HashMap<String, String>> allJobs;
 
     /**
@@ -29,6 +28,7 @@ public class JobData {
      * @param field The column to retrieve values from
      * @return List of all of the values of the given field
      */
+
     public static ArrayList<String> findAll(String field) {
 
         // load data, if not already loaded
@@ -71,23 +71,25 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+        // initialize an empty list for holding the results
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
-        for (HashMap<String, String> row : allJobs) {
+        for (HashMap<String, String> row : allJobs) {  // for every job in allJobs
 
-            String aValue = row.get(column);
+            String original_value = row.get(column);  // retrieve what's stored under the key "column"
+            String aValue = original_value.toLowerCase();
 
-            if (aValue.contains(value)) {
-                jobs.add(row);
+            if (aValue.contains(value)) {    // if the argument "value" is in this key's value (i.e., this column),
+                jobs.add(row);              // add this job to the result set.
             }
         }
 
-        return jobs;
+        return jobs;  // return the list of hashmaps.
     }
 
     public static ArrayList<HashMap<String, String>> findByValue (String searchTerm) {
 
-        /**
+        /*
         Search for a term in all columns.  If a row of allJobs contains searchTerm one or more times, accumulate that Job
         (a hashMap) into the List of Jobs.  Then, return the list (an ArrayList of HashMaps).
          */
@@ -116,6 +118,7 @@ public class JobData {
         }
         return jobs;
     }
+
 
     /**
      * Read in data from a CSV file and store it in a list
@@ -157,5 +160,4 @@ public class JobData {
             e.printStackTrace();
         }
     }
-
 }
